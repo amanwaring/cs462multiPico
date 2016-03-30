@@ -7,7 +7,7 @@ ruleset manage_fleet {
 		sharing on
 		provides vehicles
 		provides subscriptions
-		use module a169x625 alias CloudOS
+		use module b507199x5 alias wranglerOS
 	}
 	global{
 		vehicles = function() {
@@ -17,8 +17,9 @@ ruleset manage_fleet {
 		};
 
 		subscriptions = function() {
-			allSubscriptions = CloudOS:getAllSubscriptions();
-			allSubscriptions
+			results = wranglerOS:subscriptions();
+			subscriptions = results{"subscriptions"};
+			subscriptions
 		};
 	}
 	rule create_vehicle {
