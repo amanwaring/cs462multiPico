@@ -104,7 +104,7 @@ ruleset manage_fleet {
 	}
 
 	rule report_scatter {
-		select when car report_scatter
+		select when explicit report_scatter
 		pre {
 			cid = random:uuid();
 			attr = {}
