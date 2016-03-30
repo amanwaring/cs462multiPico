@@ -59,7 +59,7 @@ ruleset manage_fleet {
 		select when car unneeded_vehicle
 		pre {
 			attributes = {}
-				.put(["deletionTarget"],event:attr{"targetECI"})
+				.put(["deletionTarget"],event:attr("targetECI"))
 				;
 		}
 		{
