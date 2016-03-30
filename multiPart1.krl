@@ -59,9 +59,11 @@ ruleset manage_fleet {
 	rule delete_vehicle {
 		select when car unneeded_vehicle
 		pre {
-			eci = event:attr("targetECI").klog("Pulled targetECI: ");
+			eci = event:attr("target_eci").klog("Pulled target_eci: ");
+			channel_name = event:attr("channel_name").klog("Pulled channel_name: ");
 			attributes = {}
 				.put(["deletionTarget"],eci)
+				.put(["channel_name"],channel_name)
 				;
 		}
 		{
@@ -69,6 +71,8 @@ ruleset manage_fleet {
 		}
 		always {
 			raise wrangler event "child_deletion"
+				attributes attributes.klog("attributes: ");
+			raise wrangler event "subscription_cancellation"
 				attributes attributes.klog("attributes: ");
 		}
 	}
