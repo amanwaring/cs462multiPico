@@ -104,7 +104,7 @@ ruleset manage_fleet {
 	}
 
 	rule report_scatter {
-		select when explicit report_scatter
+		select when car report_scatter
 		pre {
 			cid = random:uuid();
 			attr = {}
@@ -115,7 +115,7 @@ ruleset manage_fleet {
 			noop();
 		}
 		always {
-			raise car event "report_requested"
+			raise explicit event "report_requested"
 				attributes attr
 		}
 	}
