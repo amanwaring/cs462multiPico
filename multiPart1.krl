@@ -7,6 +7,7 @@ ruleset manage_fleet {
 		sharing on
 		provides vehicles
 		provides subscriptions
+		provides fleet_trips
 		use module b507199x5 alias wranglerOS
 	}
 	global{
@@ -21,6 +22,20 @@ ruleset manage_fleet {
 			subscriptions = results{"subscriptions"};
 			subscriptions
 		};
+
+		fleet_trips = function() {
+			all_trips = vehicles().map(function(vehicle) {
+				cloud_url = "https://cs.kobj.net/sky/cloud/";
+				mod = "b507764x6.prod";
+				func = "trips";
+				response = http:get("#{cloud_url}#{mod}/#{func}", (params || {}).put(["_eci"], vehicle[0]));
+
+				status = response{"status_code"};
+
+				response{"content"}.decode();
+			});
+			all_trips
+		}
 	}
 	rule create_vehicle {
 		select when car new_vehicle
