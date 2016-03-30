@@ -8,6 +8,7 @@ ruleset manage_fleet {
 		provides vehicles
 		provides subscriptions
 		provides fleet_trips
+		provides fleet_trips_gather
 		use module b507199x5 alias wranglerOS
 	}
 	global{
@@ -35,6 +36,11 @@ ruleset manage_fleet {
 				response{"content"}.decode();
 			});
 			all_trips
+		}
+
+		fleet_trips_pattern = function() {
+			trips = ent:reports;
+			trips
 		}
 
 		num_cars_in_report = function(cid) {
