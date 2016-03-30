@@ -25,9 +25,10 @@ ruleset manage_fleet {
 	rule create_vehicle {
 		select when car new_vehicle
 		pre {
+			name = event:attr("vehicle_name");
 			attributes = {}
 				.put(["Prototype_rids"],"b507764x4.prod;b507764x5.prod;b507764x7.prod") //track_trips_part_2;trip_store;subscription_request
-				.put(["name"],event:attr("vehicle_name"))
+				.put(["name"],name)
 				.put(["parent_eci"], "7AC39FAE-F6A9-11E5-BE21-84E6E71C24E1")
 				;
 		}
@@ -58,8 +59,9 @@ ruleset manage_fleet {
 	rule delete_vehicle {
 		select when car unneeded_vehicle
 		pre {
+			eci = event:attr("targetECI").klog("Pulled targetECI: ");
 			attributes = {}
-				.put(["deletionTarget"],event:attr("targetECI"))
+				.put(["deletionTarget"],eci)
 				;
 		}
 		{
