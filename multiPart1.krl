@@ -39,6 +39,7 @@ ruleset manage_fleet {
 			log("create child for " + child);
 		}
 	}
+
 	rule autoAccept {
 		select when wrangler inbound_pending_subscription_added
 		pre {
@@ -51,6 +52,22 @@ ruleset manage_fleet {
 			raise wrangler event "pending_subscription_approval"
 				attributes attributes;
 				log("auto accepted subscription.")
+		}
+	}
+
+	rule delete_vehicle {
+		select when car unneeded_vehicle
+		pre {
+			attributes = {}
+				.put(["deletionTarget"],event:attr{"targetECI"})
+				;
+		}
+		{
+			noop();
+		}
+		always {
+			raise wrangler event "child_deletion"
+				attributes attributes
 		}
 	}
 }
