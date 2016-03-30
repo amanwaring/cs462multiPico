@@ -5,9 +5,21 @@ ruleset manage_fleet {
 		author "Andrew Manwaring"
 		logging on
 		sharing on
+		provides vehicles
+		provides subscriptions
+		use module a169x625 alias CloudOS
 	}
 	global{
+		vehicles = function() {
+			results = wranglerOS:children();
+			children = results{"children"};
+			children
+		};
 
+		subscriptions = function() {
+			allSubscriptions = CloudOS:getAllSubscriptions();
+			allSubscriptions
+		};
 	}
 	rule create_vehicle {
 		select when car new_vehicle
