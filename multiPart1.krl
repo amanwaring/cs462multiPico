@@ -115,7 +115,7 @@ ruleset manage_fleet {
 			noop();
 		}
 		always {
-			raise explicit event "report_requested"
+			raise car event "report_requested"
 				attributes attr
 		}
 	}
