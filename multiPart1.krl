@@ -67,7 +67,7 @@ ruleset manage_fleet {
 		}
 		always {
 			raise wrangler event "child_deletion"
-				attributes attributes
+				attributes attributes.klog("attributes: ");
 		}
 	}
 }
