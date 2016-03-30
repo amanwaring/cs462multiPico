@@ -38,7 +38,7 @@ ruleset manage_fleet {
 			all_trips
 		}
 
-		fleet_trips_pattern = function() {
+		fleet_trips_gather = function() {
 			trips = ent:reports;
 			trips
 		}
