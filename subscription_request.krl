@@ -22,7 +22,7 @@ ruleset subscription_request {
 				.put(["my_role"], "Child")
 				.put(["your_role"], "Parent")
 				.put(["target_eci"], parent_eci.klog("target Eci: "))
-				.put(["channel_type"], "Pico_Tutorial???")
+				.put(["channel_type"], "multiple_pico_lab_type")
 				.put(["attrs"], "success")
 				;
 		}
