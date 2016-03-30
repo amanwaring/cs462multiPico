@@ -36,6 +36,11 @@ ruleset manage_fleet {
 			});
 			all_trips
 		}
+
+		num_cars_in_report = function(cid) {
+			report = ent:reports{[cid]};
+			trips.length();
+		}
 	}
 	rule create_vehicle {
 		select when car new_vehicle
@@ -89,6 +94,35 @@ ruleset manage_fleet {
 				attributes attributes.klog("attributes: ");
 			raise wrangler event "subscription_cancellation"
 				attributes attributes.klog("attributes: ");
+		}
+	}
+
+	rule report_scatter {
+		select when car report_scatter
+		pre {
+			cid = random:uuid();
+			attr = {}
+				.put(["cid"], cid)
+				;
+		}
+		{
+			noop();
+		}
+		always {
+			raise explicit event "report_requested"
+				attributes attr
+		}
+	}
+
+	rule report_gather {
+		select when car report_gather
+		pre {
+			cid = event:attr("cid");
+			report = event:attr("report");
+			num_reported = num_cars_in_report(cid);
+		}
+		always {
+			set ent:reports{[cid]} ent:reports{[cid]}.append(report);
 		}
 	}
 }
