@@ -26,7 +26,7 @@ ruleset manage_fleet {
 		fleet_trips = function() {
 			all_trips = vehicles().map(function(vehicle) {
 				cloud_url = "https://cs.kobj.net/sky/cloud/";
-				mod = "b507764x6.prod";
+				mod = "b507764x5.prod";
 				func = "trips";
 				response = http:get("#{cloud_url}#{mod}/#{func}", (params || {}).put(["_eci"], vehicle[0]));
 
