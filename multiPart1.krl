@@ -21,7 +21,7 @@ ruleset manage_fleet {
 		subscriptions = function() {
 			results = wranglerOS:subscriptions();
 			subscriptions = results{"subscriptions"};
-			list = subscriptions{"subscriptions"};
+			list = subscriptions{"subscribed"};
 			list
 		};
 
