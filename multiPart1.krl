@@ -119,7 +119,7 @@ ruleset manage_fleet {
 				.put(["mycid"], mycid)
 				;
 			url = "https://cs.kobj.net/sky/event/#{event_eci}/1/explicit/report_requested";
-			response = raise_event(url, mycid);
+			response = raise_event(url, mycid).klog("Response: ");
 		}
 		{
 			noop();
