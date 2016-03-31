@@ -108,7 +108,7 @@ ruleset manage_fleet {
 		select when car report_scatter
 			foreach subscriptions() setting (subscription)
 		pre {
-			event_eci = subscription.pick("$..event_eci");
+			event_eci = subscription.pick("$..event_eci").klog("Event eci: ");
 			cid = random:uuid();
 			attr = {}
 				.put(["cid"], cid)
