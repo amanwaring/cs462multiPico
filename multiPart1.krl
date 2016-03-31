@@ -28,7 +28,7 @@ ruleset manage_fleet {
 		fleet_trips = function() {
 			all_trips = vehicles().map(function(vehicle) {
 				cloud_url = "https://cs.kobj.net/sky/cloud/";
-				mod = "b507764x5.prod";
+				mod = "b507764x8.prod";
 				func = "trips";
 				response = http:get("#{cloud_url}#{mod}/#{func}", (params || {}).put(["_eci"], vehicle[0]));
 
@@ -47,11 +47,6 @@ ruleset manage_fleet {
 		num_cars_in_report = function(cid) {
 			report = ent:reports{[cid]};
 			trips.length();
-		}
-
-		raise_event = function(url, mycid) {
-			response = http:get(url, (params || {}).put(["mycid"], mycid));
-			response
 		}
 	}
 	rule create_vehicle {
@@ -118,11 +113,10 @@ ruleset manage_fleet {
 			attr = {}
 				.put(["mycid"], mycid)
 				;
-			url = "https://cs.kobj.net/sky/event/#{event_eci}/1/explicit/report_requested";
-			response = raise_event(url, mycid).klog("Response: ");
 		}
 		{
-			noop();
+			event:send({"cid":event_eci},"explicit","report_requested")
+				with attrs = attr.klog("attributes: ")
 		}
 		{
 			log("Sent event to: " + event_eci + " with mycid: " + mycid + " with attr: " + attr);
