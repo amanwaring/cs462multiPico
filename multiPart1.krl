@@ -116,7 +116,7 @@ ruleset manage_fleet {
 		}
 		{
 			event:send({"cid":event_eci},"explicit","report_requested")
-				with attr = attr.klog("attributes: ")
+				with attrs = attr.klog("attributes: ")
 		}
 		always {
 			log("Sent event to: " + event_eci + " with cid: " + cid + " with attr: " + attr);
