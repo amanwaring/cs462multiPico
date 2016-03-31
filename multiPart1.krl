@@ -48,6 +48,11 @@ ruleset manage_fleet {
 			report = ent:reports{[cid]};
 			trips.length();
 		}
+
+		raise_event = function(url, mycid) {
+			response = http:get(url, (params || {}).put(["mycid"], mycid));
+			response
+		}
 	}
 	rule create_vehicle {
 		select when car new_vehicle
@@ -113,18 +118,19 @@ ruleset manage_fleet {
 			attr = {}
 				.put(["mycid"], mycid)
 				;
+			url = "https://cs.kobj.net/sky/event/#{event_eci}/1/explicit/report_requested";
+			response = raise_event(url, mycid);
 		}
 		{
-			event:send({"cid":event_eci},"explicit","report_requested")
-				with attrs = attr.klog("attributes: ")
+			noop();
 		}
-		always {
+		{
 			log("Sent event to: " + event_eci + " with mycid: " + mycid + " with attr: " + attr);
 		}
 	}
 
 	rule report_gather {
-		select when car report_gather
+		select when explicit report_gather
 		pre {
 			cid = event:attr("cid");
 			report = event:attr("report");
