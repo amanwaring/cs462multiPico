@@ -109,7 +109,7 @@ ruleset manage_fleet {
 			foreach subscriptions() setting (subscription)
 		pre {
 			event_eci = subscription.pick("$..event_eci").klog("Event eci: ");
-			cid = "my_eci".klog("cid: ");
+			cid = random.uuid();
 			attr = {}
 				.put(["cid"], cid)
 				;
@@ -119,7 +119,7 @@ ruleset manage_fleet {
 				with attr = attr.klog("attributes: ")
 		}
 		always {
-			log("Sent event to: " + event_eci + " with cid: " + cid);
+			log("Sent event to: " + event_eci + " with cid: " + cid + " with attr: " + attr);
 		}
 	}
 
