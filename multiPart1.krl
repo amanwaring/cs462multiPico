@@ -119,7 +119,7 @@ ruleset manage_fleet {
 				with attrs = attr.klog("attributes: ")
 		}
 		always {
-			log("Sent event to: " + event_eci + " with mycid: " + cid + " with attr: " + attr);
+			log("Sent event to: " + event_eci + " with mycid: " + mycid + " with attr: " + attr);
 		}
 	}
 
