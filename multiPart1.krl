@@ -109,7 +109,7 @@ ruleset manage_fleet {
 			foreach subscriptions() setting (subscription)
 		pre {
 			event_eci = subscription.pick("$..event_eci").klog("Event eci: ");
-			cid = random:uuid().klog("cid: ");
+			cid = "my_eci".klog("cid: ");
 			attr = {}
 				.put(["cid"], cid)
 				;
