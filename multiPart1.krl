@@ -21,7 +21,8 @@ ruleset manage_fleet {
 		subscriptions = function() {
 			results = wranglerOS:subscriptions();
 			subscriptions = results{"subscriptions"};
-			subscriptions
+			list = subscriptions{"subscriptions"};
+			list
 		};
 
 		fleet_trips = function() {
@@ -105,18 +106,20 @@ ruleset manage_fleet {
 
 	rule report_scatter {
 		select when car report_scatter
+			foreach subscriptions() setting (subscription)
 		pre {
+			event_eci = subscription.pick("$..event_eci");
 			cid = random:uuid();
 			attr = {}
 				.put(["cid"], cid)
 				;
 		}
 		{
-			noop();
+			event:send({"cid":event_eci},"explicit","report_requested")
+				with attr = attributes.klog("attibutes: ")
 		}
 		always {
-			raise explicit event "report_requested"
-				attributes attr
+			log("Sent event to: " + event_eci + " with cid: " + cid);
 		}
 	}
 
